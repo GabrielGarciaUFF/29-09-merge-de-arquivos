@@ -32,27 +32,46 @@ void merge(char *nomeArq1, char *nomeArq2, char *nomeArqMerge) {
     int leu1 = fscanf(arq1, "%d", &n1);
     int leu2 = fscanf(arq2, "%d", &n2);
 
+    int ultimo;
+    int tem_ultimo = 0;
+
     while (leu1 == 1 && leu2 == 1) {
+        int menor;
+
         if (n1 < n2) {
-            fprintf(arqMerge, "%d\n", n1);
+            menor = n1;
             leu1 = fscanf(arq1, "%d", &n1);
         } else if (n2 < n1) {
-            fprintf(arqMerge, "%d\n", n2);
+            menor = n2;
             leu2 = fscanf(arq2, "%d", &n2);
-        } else { // n1 == n2: grava apenas uma vez para não repetir
-            fprintf(arqMerge, "%d\n", n1);
+        } else {
+            menor = n1;
             leu1 = fscanf(arq1, "%d", &n1);
             leu2 = fscanf(arq2, "%d", &n2);
+        }
+
+        if (!tem_ultimo || menor != ultimo) {
+            fprintf(arqMerge, "%d\n", menor);
+            ultimo = menor;
+            tem_ultimo = 1;
         }
     }
 
     while (leu1 == 1) {
-        fprintf(arqMerge, "%d\n", n1);
+        if (!tem_ultimo || n1 != ultimo) {
+            fprintf(arqMerge, "%d\n", n1);
+            ultimo = n1;
+            tem_ultimo = 1;
+        }
         leu1 = fscanf(arq1, "%d", &n1);
     }
 
     while (leu2 == 1) {
-        fprintf(arqMerge, "%d\n", n2);
+        if (!tem_ultimo || n2 != ultimo) {
+            fprintf(arqMerge, "%d\n", n2);
+            ultimo = n2;
+            tem_ultimo = 1;
+        }
         leu2 = fscanf(arq2, "%d", &n2);
     }
 
